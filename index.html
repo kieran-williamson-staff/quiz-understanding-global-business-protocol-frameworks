@@ -1354,10 +1354,13 @@
                 
                 if (config.background_image && imageSection) {
                     imageSection.innerHTML = `
-                        <div style="position: relative; display: inline-block;">
-                            <img src="${config.background_image}" style="max-width: 800px; height: auto; display: block;" 
-                                 onerror="console.error('Failed to load background image:', this.src.substring(0, 50) + '...')">
-                            <div id="category-positions-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></div>
+                        <div style="text-align: center;">
+                            <h2 style="margin-bottom: 20px;">${config.title || 'Your Results'}</h2>
+                            <div style="position: relative; display: inline-block;">
+                                <img src="${config.background_image}" style="max-width: 600px; height: auto; display: block;" 
+                                     onerror="console.error('Failed to load background image:', this.src.substring(0, 50) + '...')">
+                                <div id="category-positions-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></div>
+                            </div>
                         </div>
                     `;
                     
@@ -1426,17 +1429,9 @@
                     }
                 }
                 
-                // Show only the heading in info section for category mode
+                // Hide info section completely for category mode (heading now in image section)
                 if (infoSection) {
-                    // Hide all content except the heading
-                    const children = infoSection.children;
-                    for (let i = 0; i < children.length; i++) {
-                        if (children[i].id === 'quizLevel') {
-                            children[i].style.display = 'block';
-                        } else {
-                            children[i].style.display = 'none';
-                        }
-                    }
+                    infoSection.style.display = 'none';
                 }
                 
                 // Hide thumbnails for category mode
