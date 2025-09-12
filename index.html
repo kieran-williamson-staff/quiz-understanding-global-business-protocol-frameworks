@@ -1352,7 +1352,7 @@
                         // Return a minimal result object for category mode
                         console.log('No results available, creating minimal result');
                         return {
-                            title: 'Your Profile',
+                            title: 'Your Results',
                             description: 'Category mode results',
                             className: 'category-mode'
                         };
@@ -1470,7 +1470,7 @@
                 const categoryScores = scores.categoryScores || {};
                 
                 // Set title (hidden for display but kept for accessibility)
-                this.elements.quizLevel.textContent = config.title || 'Your Profile';
+                this.elements.quizLevel.textContent = config.title || 'Your Results';
                 this.elements.quizLevel.style.display = 'none';
                 
                 // Hide the default image and description
@@ -1567,7 +1567,7 @@
                                 scoreElement.style.alignItems = 'center';
                                 scoreElement.style.justifyContent = 'center';
                                 scoreElement.style.fontWeight = 'bold';
-                                scoreElement.style.fontSize = '22px';
+                                scoreElement.style.fontSize = '26px';
                                 scoreElement.style.color = 'black';
                                 scoreElement.textContent = score;
                                 overlay.appendChild(scoreElement);
