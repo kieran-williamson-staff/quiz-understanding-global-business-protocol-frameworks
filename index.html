@@ -142,6 +142,19 @@
             border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         }
 
+        /* Category Heading */
+        .quiz-category-heading {
+            text-align: center;
+            color: var(--text-dark);
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: var(--radius-large);
+            text-transform: capitalize;
+        }
+
         /* Question Groups */
         .quiz-question-group {
             display: none;
@@ -280,7 +293,7 @@
         /* Results Screen */
         .quiz-results {
             display: none;
-            padding: var(--spacing-xlarge) 0;
+            padding: 0;
             height: 100%;
             overflow-y: auto;
             overflow-x: hidden;
@@ -296,10 +309,11 @@
         .quiz-results-main {
             display: flex;
             align-items: center;
-            justify-content: flex-start;
+            justify-content: center;
             gap: 25px;
             flex: 1;
-            padding: 20px 0;
+            padding: 0;
+            height: 100%;
         }
 
         .quiz-results-image-section {
@@ -967,6 +981,15 @@
                     const startIdx = i * this.config.questionsPerPage;
                     const endIdx = Math.min(startIdx + this.config.questionsPerPage, this.config.questions.length);
                     
+                    // Get the category for this group (assuming all questions in a group share the same category)
+                    const categoryForGroup = this.config.questions[startIdx].category;
+                    
+                    // Add category heading
+                    const categoryHeading = document.createElement('div');
+                    categoryHeading.className = 'quiz-category-heading';
+                    categoryHeading.textContent = `Assessing: ${categoryForGroup}`;
+                    group.appendChild(categoryHeading);
+                    
                     for (let j = startIdx; j < endIdx; j++) {
                         group.appendChild(this.createQuestionHTML(this.config.questions[j], j));
                     }
@@ -1341,8 +1364,9 @@
                 const config = this.config.categoryModeConfig || {};
                 const categoryScores = scores.categoryScores || {};
                 
-                // Set title
+                // Set title (hidden for display but kept for accessibility)
                 this.elements.quizLevel.textContent = config.title || 'Your Results';
+                this.elements.quizLevel.style.display = 'none';
                 
                 // Hide the default image and description
                 this.elements.resultsImage.style.display = 'none';
@@ -1353,14 +1377,22 @@
                 const infoSection = document.querySelector('.quiz-info-section');
                 
                 if (config.background_image && imageSection) {
+                    // Center the entire results display
+                    imageSection.style.cssText = `
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        width: 100%;
+                        height: 100%;
+                        padding: 0;
+                    `;
+                    
                     imageSection.innerHTML = `
-                        <div style="text-align: center;">
-                            <h2 style="margin-bottom: 20px;">${config.title || 'Your Results'}</h2>
-                            <div style="position: relative; display: inline-block;">
-                                <img src="${config.background_image}" style="max-width: 600px; height: auto; display: block;" 
-                                     onerror="console.error('Failed to load background image:', this.src.substring(0, 50) + '...')">
-                                <div id="category-positions-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></div>
-                            </div>
+                        <div style="position: relative; display: inline-block; max-width: 95%; max-height: 95%;">
+                            <img src="${config.background_image}" 
+                                 style="max-width: 100%; max-height: calc(90vh * 0.95); height: auto; display: block; object-fit: contain;" 
+                                 onerror="console.error('Failed to load background image:', this.src.substring(0, 50) + '...')">
+                            <div id="category-positions-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></div>
                         </div>
                     `;
                     
