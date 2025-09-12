@@ -1352,7 +1352,7 @@
                         // Return a minimal result object for category mode
                         console.log('No results available, creating minimal result');
                         return {
-                            title: 'Your Results',
+                            title: 'Your Profile',
                             description: 'Category mode results',
                             className: 'category-mode'
                         };
@@ -1470,7 +1470,7 @@
                 const categoryScores = scores.categoryScores || {};
                 
                 // Set title (hidden for display but kept for accessibility)
-                this.elements.quizLevel.textContent = config.title || 'Your Results';
+                this.elements.quizLevel.textContent = config.title || 'Your Profile';
                 this.elements.quizLevel.style.display = 'none';
                 
                 // Hide the default image and description
