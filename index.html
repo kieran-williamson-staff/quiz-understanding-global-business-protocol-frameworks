@@ -150,9 +150,10 @@
             font-weight: 600;
             margin-bottom: 25px;
             padding: 15px;
-            background: rgba(255, 255, 255, 0.5);
+            background: var(--bg-color);
             border-radius: var(--radius-large);
             text-transform: capitalize;
+            border: 1px solid rgba(0, 0, 0, 0.05);
         }
 
         /* Question Groups */
@@ -233,12 +234,12 @@
         }
 
         .quiz-rating__option--selected {
-            background: var(--success-color);
-            color: #000000;
-            border-color: var(--success-color);
+            background: #6ac670;
+            color: #ffffff;
+            border-color: #6ac670;
             font-weight: 700;
             transform: scale(1.05);
-            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+            box-shadow: 0 4px 12px rgba(106, 198, 112, 0.3);
         }
 
         /* Navigation */
@@ -530,10 +531,10 @@
 
         <!-- Main Content -->
         <div class="quiz-content" id="quizContent">
+            <!-- Category heading will be inserted here dynamically -->
             <div class="quiz-scale-hint" role="note" id="scaleHint">
-                
-                1 = Never true for me | 2 = Rarely true for me | 3 = Sometimes true for me | 4 = Often true for me | 5 = Always true for me
-                
+                <div>1 = Never true for me | 2 = Rarely true for me | 3 = Sometimes true for me</div>
+                <div>4 = Often true for me | 5 = Always true for me</div>
             </div>
             <!-- Question groups will be inserted here -->
         </div>
@@ -981,14 +982,8 @@
                     const startIdx = i * this.config.questionsPerPage;
                     const endIdx = Math.min(startIdx + this.config.questionsPerPage, this.config.questions.length);
                     
-                    // Get the category for this group (assuming all questions in a group share the same category)
-                    const categoryForGroup = this.config.questions[startIdx].category;
-                    
-                    // Add category heading
-                    const categoryHeading = document.createElement('div');
-                    categoryHeading.className = 'quiz-category-heading';
-                    categoryHeading.textContent = `Assessing: ${categoryForGroup}`;
-                    group.appendChild(categoryHeading);
+                    // Store category for this group
+                    group.dataset.category = this.config.questions[startIdx].category;
                     
                     for (let j = startIdx; j < endIdx; j++) {
                         group.appendChild(this.createQuestionHTML(this.config.questions[j], j));
@@ -997,7 +992,9 @@
                     fragment.appendChild(group);
                 }
                 
-                this.elements.quizContent.appendChild(fragment);
+                // Add question groups after the scale hint
+                const scaleHint = document.getElementById('scaleHint');
+                scaleHint.parentNode.insertBefore(fragment, scaleHint.nextSibling);
             }
 
             handleRatingClick(event) {
@@ -1031,6 +1028,19 @@
                 const targetGroup = document.getElementById(`group-${groupIndex}`);
                 if (targetGroup) {
                     targetGroup.classList.add('quiz-question-group--active');
+                    
+                    // Update category heading
+                    const category = targetGroup.dataset.category;
+                    let categoryHeading = document.querySelector('.quiz-category-heading');
+                    
+                    if (!categoryHeading) {
+                        categoryHeading = document.createElement('div');
+                        categoryHeading.className = 'quiz-category-heading';
+                        const scaleHint = document.getElementById('scaleHint');
+                        scaleHint.parentNode.insertBefore(categoryHeading, scaleHint);
+                    }
+                    
+                    categoryHeading.textContent = `Assessing: ${category}`;
                 }
                 
                 this.elements.quizContent.scrollTop = 0;
