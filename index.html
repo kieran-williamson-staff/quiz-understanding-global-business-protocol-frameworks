@@ -1388,7 +1388,7 @@
                 const infoSection = document.querySelector('.quiz-info-section');
                 
                 if (config.background_image && imageSection) {
-                    // Center the entire results display but don't allow scaling
+                    // Center the entire results display
                     imageSection.style.cssText = `
                         display: flex;
                         align-items: center;
@@ -1396,13 +1396,20 @@
                         width: 100%;
                         height: 100%;
                         padding: 0;
-                        overflow: hidden;
                     `;
                     
                     imageSection.innerHTML = `
-                        <div style="position: relative; display: inline-block; width: 875px; height: 875px; max-width: 875px; max-height: 875px;">
+                        <div style="
+                            position: relative; 
+                            width: 875px; 
+                            height: 875px;
+                        ">
                             <img src="bg_adjusted.png" 
-                                 style="width: 875px; height: 875px; max-width: 875px; max-height: 875px; display: block; object-fit: cover;" 
+                                 style="
+                                     width: 875px; 
+                                     height: 875px; 
+                                     display: block;
+                                 " 
                                  onerror="console.error('Failed to load background image: bg_adjusted.png')">
                             <div id="category-positions-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></div>
                         </div>
