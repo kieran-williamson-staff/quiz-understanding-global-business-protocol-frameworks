@@ -20,7 +20,7 @@
             --primary-color: #0a1ec0;
             --bg-color: #f9fafb;
             --text-color: #2a2a2a;
-            --success-color: #49d460;
+            --success-color: #81a1cf;
             --font-family: 'Poppins';
             
             /* Standard colors */
@@ -117,7 +117,7 @@
 
         .quiz-progress__fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--primary-color) 0%, var(--success-color) 100%);
+            background: linear-gradient(90deg, #5b7baf 0%, #a1b1df 100%);
             transition: var(--transition-slow);
             width: 0%;
         }
@@ -146,7 +146,7 @@
         .quiz-category-heading {
             text-align: center;
             color: var(--text-dark);
-            font-size: 22px;
+            font-size: 30px;
             font-weight: 600;
             margin-bottom: 25px;
             padding: 15px;
@@ -227,19 +227,19 @@
         }
 
         .quiz-rating__option:hover {
-            background: var(--success-bg);
+            background: rgba(129, 161, 207, 0.25);
             color: var(--text-dark);
-            border-color: var(--success-color);
+            border-color: #81a1cf;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
 
         .quiz-rating__option--selected {
-            background: #6ac670;
+            background: #6b8bbf;
             color: #ffffff;
-            border-color: #6ac670;
+            border-color: #6b8bbf;
             font-weight: 700;
             transform: scale(1.05);
-            box-shadow: 0 4px 12px rgba(106, 198, 112, 0.3);
+            box-shadow: 0 4px 12px rgba(107, 139, 191, 0.3);
         }
 
         /* Navigation */
@@ -277,7 +277,7 @@
 
         .quiz-nav__button--next:hover:not(:disabled), 
         .quiz-nav__button--submit:hover:not(:disabled) {
-            background: #45a049;
+            background: #5b7baf;
         }
 
         .quiz-nav__button:disabled {
@@ -304,6 +304,7 @@
             display: flex;
             flex-direction: column;
             animation: gentleFadeIn 1.2s ease;
+            overflow-y: auto;
         }
 
         /* Results main layout */
@@ -744,42 +745,42 @@
     "positions": {
       "Communication style preferences": {
         "description": {
-          "x": 66.53939536340853,
-          "y": 38.677734375
+          "x": 51.5,
+          "y": 29.59
         },
         "score": {
-          "x": 85.46170112781954,
-          "y": 24.802734375
+          "x": 86.5,
+          "y": 24.66
         }
       },
       "Decision-making approach": {
         "description": {
-          "x": 66.53939536340853,
-          "y": 79.66796875
+          "x": 51.8,
+          "y": 70.8
         },
         "score": {
-          "x": 88.34390664160401,
-          "y": 65.84765625
+          "x": 89.2,
+          "y": 66.4
         }
       },
       "Power distance and hierarchy awareness": {
         "description": {
-          "x": 33.95794172932331,
-          "y": 38.833984375
+          "x": 19.4,
+          "y": 29.59
         },
         "score": {
-          "x": 14.03312969924812,
-          "y": 24.796875
+          "x": 13.0,
+          "y": 24.66
         }
       },
       "Time and relationship orientation": {
         "description": {
-          "x": 33.70731516290727,
-          "y": 79.55859375
+          "x": 19.91,
+          "y": 70.8
         },
         "score": {
-          "x": 10.900297619047619,
-          "y": 66.875
+          "x": 10.75,
+          "y": 66.65
         }
       }
     },
@@ -1041,7 +1042,7 @@
                         scaleHint.parentNode.insertBefore(categoryHeading, scaleHint);
                     }
                     
-                    categoryHeading.textContent = `Assessing: ${category}`;
+                    categoryHeading.textContent = category;
                 }
                 
                 this.elements.quizContent.scrollTop = 0;
@@ -1368,6 +1369,9 @@
                 this.elements.quizContent.style.display = 'none';
                 document.getElementById('quizNavigation').style.display = 'none';
                 
+                // Hide progress bar on results page
+                document.querySelector('.quiz-progress').style.display = 'none';
+                
                 // Show results container
                 this.elements.resultsContainer.classList.add('quiz-results--active');
                 
@@ -1388,26 +1392,41 @@
                 const infoSection = document.querySelector('.quiz-info-section');
                 
                 if (config.background_image && imageSection) {
-                    // Center the entire results display
+                    // Set up scrollable container
                     imageSection.style.cssText = `
                         display: flex;
+                        flex-direction: column;
                         align-items: center;
-                        justify-content: center;
+                        justify-content: flex-start;
                         width: 100%;
                         height: 100%;
-                        padding: 0;
+                        padding: 20px;
+                        box-sizing: border-box;
+                        overflow-y: auto;
+                        overflow-x: hidden;
                     `;
                     
                     imageSection.innerHTML = `
+                        <h2 style="
+                            font-family: 'Poppins', sans-serif;
+                            font-size: 33px;
+                            color: black;
+                            text-align: center;
+                            margin-bottom: 25px;
+                            margin-top: 10px;
+                            font-weight: 600;
+                        ">Your Results</h2>
                         <div style="
                             position: relative; 
-                            width: 875px; 
-                            height: 875px;
+                            width: 100%;
+                            max-width: 700px;
+                            aspect-ratio: 1;
+                            margin-bottom: 20px;
                         ">
                             <img src="bg_adjusted.png" 
                                  style="
-                                     width: 875px; 
-                                     height: 875px; 
+                                     width: 100%; 
+                                     height: 100%; 
                                      display: block;
                                  " 
                                  onerror="console.error('Failed to load background image: bg_adjusted.png')">
@@ -1436,7 +1455,8 @@
                                 scoreElement.style.alignItems = 'center';
                                 scoreElement.style.justifyContent = 'center';
                                 scoreElement.style.fontWeight = 'bold';
-                                scoreElement.style.fontSize = '14px';
+                                scoreElement.style.fontSize = '20px';
+                                scoreElement.style.color = 'black';
                                 scoreElement.textContent = score;
                                 overlay.appendChild(scoreElement);
                                 
@@ -1451,12 +1471,18 @@
                                         descElement.style.position = 'absolute';
                                         descElement.style.left = descPos.x + '%';
                                         descElement.style.top = descPos.y + '%';
-                                        descElement.style.transform = 'translate(-50%, -50%)';
-                                        descElement.style.fontSize = '12px';
+                                        descElement.style.width = '27.48%';
+                                        descElement.style.height = '17.26%';
+                                        descElement.style.fontSize = '15px';
                                         descElement.style.fontWeight = '500';
                                         descElement.style.textAlign = 'center';
-                                        descElement.style.maxWidth = '150px';
                                         descElement.style.lineHeight = '1.3';
+                                        descElement.style.display = 'flex';
+                                        descElement.style.alignItems = 'center';
+                                        descElement.style.justifyContent = 'center';
+                                        descElement.style.padding = '8px';
+                                        descElement.style.boxSizing = 'border-box';
+                                        descElement.style.color = 'black';
                                         descElement.textContent = interpretation.text;
                                         overlay.appendChild(descElement);
                                     }
