@@ -225,7 +225,7 @@
             background: rgba(255, 255, 255, 0.9);
             border-radius: var(--radius-large);
             cursor: pointer;
-            transition: var(--transition-default);
+            transition: all 0.15s ease;
             text-align: center;
             font-weight: 600;
             color: var(--text-dark);
@@ -238,7 +238,7 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        .quiz-rating__option:hover {
+        .quiz-rating__option:hover:not(.quiz-rating__option--selected) {
             background: rgba(129, 161, 207, 0.25);
             color: var(--text-dark);
             border-color: #81a1cf;
