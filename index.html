@@ -141,6 +141,14 @@
             font-weight: 400;
             border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         }
+        
+        .quiz-scale-hint div {
+            margin-bottom: 4px;
+        }
+        
+        .quiz-scale-hint div:last-child {
+            margin-bottom: 0;
+        }
 
         /* Category Heading */
         .quiz-category-heading {
@@ -148,12 +156,10 @@
             color: var(--text-dark);
             font-size: 30px;
             font-weight: 600;
-            margin-bottom: 25px;
-            padding: 15px;
-            background: var(--bg-color);
-            border-radius: var(--radius-large);
+            margin-bottom: 20px;
+            padding: 15px 15px 20px 15px;
             text-transform: capitalize;
-            border: 1px solid rgba(0, 0, 0, 0.05);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         }
 
         /* Question Groups */
@@ -520,6 +526,65 @@
                 animation-duration: 0.01ms !important;
                 animation-iteration-count: 1 !important;
                 transition-duration: 0.01ms !important;
+            }
+        }
+        
+        /* Print Styles */
+        @media print {
+            body {
+                background: white;
+                overflow: visible;
+            }
+            
+            .quiz-container {
+                width: 100%;
+                max-width: none;
+                height: auto;
+                max-height: none;
+                overflow: visible;
+            }
+            
+            .quiz-progress {
+                display: none;
+            }
+            
+            .quiz-content {
+                display: none;
+            }
+            
+            .quiz-nav {
+                display: none;
+            }
+            
+            .quiz-results {
+                display: block !important;
+                padding: 0;
+                height: auto;
+                overflow: visible;
+            }
+            
+            .quiz-results-main {
+                height: auto;
+            }
+            
+            .quiz-results-image-section {
+                overflow: visible;
+            }
+            
+            /* Hide save buttons when printing */
+            button[onclick*="save"] {
+                display: none !important;
+            }
+            
+            /* Ensure the results image prints at full size */
+            #resultsCapture {
+                max-width: 100% !important;
+                page-break-inside: avoid;
+            }
+            
+            @page {
+                margin: 0.5in;
+                size: letter;
             }
         }
     </style>
@@ -1416,7 +1481,7 @@
                             margin-top: 10px;
                             font-weight: 600;
                         ">Your Results</h2>
-                        <div style="
+                        <div id="resultsCapture" style="
                             position: relative; 
                             width: 100%;
                             max-width: 700px;
@@ -1431,6 +1496,28 @@
                                  " 
                                  onerror="console.error('Failed to load background image: bg_adjusted.png')">
                             <div id="category-positions-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></div>
+                        </div>
+                        <div style="
+                            display: flex;
+                            gap: 15px;
+                            justify-content: center;
+                            margin-top: 20px;
+                            margin-bottom: 20px;
+                        ">
+                            <button onclick="saveAsImage()" style="
+                                padding: 12px 24px;
+                                background: #81a1cf;
+                                color: white;
+                                border: none;
+                                border-radius: 25px;
+                                font-family: 'Poppins', sans-serif;
+                                font-size: 16px;
+                                font-weight: 500;
+                                cursor: pointer;
+                                transition: all 0.3s ease;
+                            " onmouseover="this.style.background='#5b7baf'" onmouseout="this.style.background='#81a1cf'">
+                                Save / Print
+                            </button>
                         </div>
                     `;
                     
@@ -1594,6 +1681,18 @@
                     }
                 });
             }
+        }
+
+        // Save functions
+        function saveAsImage() {
+            // Since direct image capture has CORS issues, we'll use print functionality
+            // which allows users to save as PDF through their browser
+            window.print();
+        }
+
+        function saveAsPDF() {
+            // Use the browser's print dialog which can save as PDF
+            window.print();
         }
 
         // Initialize quiz when DOM is ready
