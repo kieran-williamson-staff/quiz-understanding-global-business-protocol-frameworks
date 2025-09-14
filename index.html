@@ -691,7 +691,7 @@
     },
     {
       "id": 4,
-      "text": "I expect junior colleagues to speak up with their opinions ",
+      "text": "I believe the best ideas can come from any level of the organisation ",
       "category": "Power distance and hierarchy awareness",
       "weight": 1,
       "reverse": false
@@ -1721,12 +1721,19 @@
         }
 
         // Initialize quiz when DOM is ready
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', () => {
+        let quizInitialized = false;
+        
+        function initializeQuiz() {
+            if (!quizInitialized) {
+                quizInitialized = true;
                 new QuizEngine(QUIZ_CONFIG);
-            });
+            }
+        }
+        
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeQuiz);
         } else {
-            new QuizEngine(QUIZ_CONFIG);
+            initializeQuiz();
         }
     </script>
 </body>
