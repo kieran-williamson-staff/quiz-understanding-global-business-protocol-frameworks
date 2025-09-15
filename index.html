@@ -1555,7 +1555,11 @@
                                 const scorePos = position.score || position; // Handle both nested and flat structure
                                 const descPos = position.description || position; // Description position
                                 
-                                // Create score circle
+                                // Calculate the maximum possible score for this category
+                                const categoryQuestions = this.config.questions.filter(q => q.category === category);
+                                const maxPossibleScore = categoryQuestions.length * 5; // 5 is max rating per question
+                                
+                                // Create score circle with max score
                                 const scoreElement = document.createElement('div');
                                 scoreElement.style.position = 'absolute';
                                 scoreElement.style.left = scorePos.x + '%';
@@ -1564,13 +1568,38 @@
                                 scoreElement.style.width = '50px';
                                 scoreElement.style.height = '50px';
                                 scoreElement.style.display = 'flex';
+                                scoreElement.style.flexDirection = 'column';
                                 scoreElement.style.alignItems = 'center';
                                 scoreElement.style.justifyContent = 'center';
-                                scoreElement.style.fontWeight = 'bold';
-                                scoreElement.style.fontSize = '26px';
-                                scoreElement.style.color = 'black';
-                                scoreElement.textContent = score;
-                                overlay.appendChild(scoreElement);
+                                scoreElement.style.lineHeight = '1';
+                                
+								// Main score
+								const mainScore = document.createElement('div');
+								mainScore.style.fontWeight = 'bold';
+								mainScore.style.fontSize = '26px';
+								mainScore.style.color = 'black';
+								mainScore.style.marginBottom = '0px';
+								mainScore.textContent = score;
+
+								// Fraction line
+								const fractionLine = document.createElement('div');
+								fractionLine.style.width = '20px';
+								fractionLine.style.height = '1px';
+								fractionLine.style.backgroundColor = '#666666';
+								fractionLine.style.margin = '0px 0 2px 0';
+
+								// Max score
+								const maxScore = document.createElement('div');
+								maxScore.style.fontSize = '12px';
+								maxScore.style.color = '#666666';
+								maxScore.style.fontWeight = 'bold';
+								maxScore.style.marginTop = '0px';
+								maxScore.textContent = maxPossibleScore;
+
+								scoreElement.appendChild(mainScore);
+								scoreElement.appendChild(fractionLine);
+								scoreElement.appendChild(maxScore);
+								overlay.appendChild(scoreElement);
                                 
                                 // Add interpretation text at description position
                                 if (config.interpretations && config.interpretations[category]) {
