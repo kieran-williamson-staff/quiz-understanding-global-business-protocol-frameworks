@@ -523,6 +523,14 @@
             outline: 3px solid var(--primary-color);
             outline-offset: 2px;
         }
+        
+        /* Max score styling for print */
+        .max-score-text {
+            color: #666666 !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+            color-adjust: exact !important;
+        }
 
         /* Reduced Motion Support */
         @media (prefers-reduced-motion: reduce) {
@@ -602,9 +610,11 @@
                 margin: 0 auto;
             }
             
-            /* Ensure text is visible */
-            * {
-                color: black !important;
+            /* Keep specific colors for score display */
+            #category-positions-overlay div {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
             }
             
             /* Keep the results heading visible */
@@ -1590,8 +1600,8 @@
 
 								// Max score
 								const maxScore = document.createElement('div');
+								maxScore.className = 'max-score-text';
 								maxScore.style.fontSize = '12px';
-								maxScore.style.color = '#666666';
 								maxScore.style.fontWeight = 'bold';
 								maxScore.style.marginTop = '0px';
 								maxScore.textContent = maxPossibleScore;
