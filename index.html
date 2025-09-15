@@ -884,88 +884,88 @@
         {
           "min": 20,
           "max": 25,
-          "text": "Low power distance preference - You value equality and informal hierarchies"
+          "text": "<b>Low power distance</b> preference - You value equality and informal hierarchies"
         },
         {
           "min": 15,
           "max": 19,
-          "text": "Moderate power distance comfort - You adapt to different hierarchy levels"
+          "text": "<b>Moderate power distance</b> comfort - You adapt to different hierarchy levels"
         },
         {
           "min": 10,
           "max": 14,
-          "text": "High power distance preference - You respect formal structures and authority"
+          "text": "<b>High power distance</b> preference - You respect formal structures and authority"
         },
         {
           "min": 0,
           "max": 9,
-          "text": "Very high power distance - You strongly prefer clear hierarchical protocols"
+          "text": "<b>Very high power distance</b> - You strongly prefer clear hierarchical protocols"
         }
       ],
       "Communication style preferences": [
         {
           "min": 20,
           "max": 25,
-          "text": "Very direct communication style - You value explicit, clear messages"
+          "text": "<b>Very direct communication style</b> - You value explicit, clear messages"
         },
         {
           "min": 15,
           "max": 19,
-          "text": "Moderately direct - You balance directness with context"
+          "text": "<b>Moderately direct</b> - You balance directness with context"
         },
         {
           "min": 10,
           "max": 14,
-          "text": "Not direct (indirect) communication preference - You balance directness with context"
+          "text": "<b>Not direct (indirect)</b> communication preference - You value subtle communication"
         },
         {
           "min": 0,
           "max": 9,
-          "text": "Very indirect - You strongly prefer context-rich, implicit communication"
+          "text": "<b>Very indirect</b> - You strongly prefer context-rich, implicit communication"
         }
       ],
       "Time and relationship orientation": [
         {
           "min": 20,
           "max": 25,
-          "text": "Task-focused, monochronic time preference"
+          "text": "<b>Task-focused</b>, monochronic time preference"
         },
         {
           "min": 15,
           "max": 19,
-          "text": "Balanced task and relationship focus"
+          "text": "<b>Balanced</b> task and relationship focus"
         },
         {
           "min": 10,
           "max": 14,
-          "text": "Relationship-focused, polychronic time preference"
+          "text": "<b>Relationship-focused</b>, polychronic time preference"
         },
         {
           "min": 0,
           "max": 9,
-          "text": "Strongly relationship-prioritised approach"
+          "text": "<b>Strongly relationship-prioritised</b> approach"
         }
       ],
       "Decision-making approach": [
         {
           "min": 20,
           "max": 25,
-          "text": "Individual, quick decision-making preference"
+          "text": "<b>Individual, quick</b> decision-making preference"
         },
         {
           "min": 15,
           "max": 19,
-          "text": "Flexible decision-making approach"
+          "text": "<b>Flexible</b> decision-making approach"
         },
         {
           "min": 10,
           "max": 14,
-          "text": "Collaborative, consensus-building preference"
+          "text": "<b>Collaborative</b>, consensus-building preference"
         },
         {
           "min": 0,
           "max": 9,
-          "text": "Strong group harmony and collective decision focus"
+          "text": "<b>Strong group harmony</b> and collective decision focus"
         }
       ]
     }
@@ -1352,7 +1352,7 @@
                         // Return a minimal result object for category mode
                         console.log('No results available, creating minimal result');
                         return {
-                            title: 'Your Profile',
+                            title: 'Your cultural profile',
                             description: 'Category mode results',
                             className: 'category-mode'
                         };
@@ -1470,7 +1470,7 @@
                 const categoryScores = scores.categoryScores || {};
                 
                 // Set title (hidden for display but kept for accessibility)
-                this.elements.quizLevel.textContent = config.title || 'Your Profile';
+                this.elements.quizLevel.textContent = config.title || 'Your cultural profile';
                 this.elements.quizLevel.style.display = 'none';
                 
                 // Hide the default image and description
@@ -1505,7 +1505,7 @@
                             margin-bottom: 25px;
                             margin-top: 10px;
                             font-weight: 600;
-                        ">Your Profile</h2>
+                        ">Your cultural profile</h2>
                         <div id="resultsCapture" style="
                             position: relative; 
                             width: 100%;
@@ -1613,18 +1613,26 @@
                                         descElement.style.left = descPos.x + '%';
                                         descElement.style.top = descPos.y + '%';
                                         descElement.style.width = '27.48%';
-                                        descElement.style.height = '17.26%';
                                         descElement.style.fontSize = '16px';
-                                        descElement.style.fontWeight = '500';
+                                        descElement.style.fontWeight = '400';
                                         descElement.style.textAlign = 'center';
                                         descElement.style.lineHeight = '1.3';
-                                        descElement.style.display = 'flex';
-                                        descElement.style.alignItems = 'center';
-                                        descElement.style.justifyContent = 'center';
                                         descElement.style.padding = '8px';
                                         descElement.style.boxSizing = 'border-box';
                                         descElement.style.color = 'black';
-                                        descElement.textContent = interpretation.text;
+                                        descElement.style.whiteSpace = 'normal';
+                                        descElement.style.wordWrap = 'break-word';
+                                        
+                                        // Set innerHTML to render bold tags
+                                        descElement.innerHTML = interpretation.text;
+                                        
+                                        // Ensure bold tags are inline
+                                        const boldTags = descElement.getElementsByTagName('b');
+                                        for (let i = 0; i < boldTags.length; i++) {
+                                            boldTags[i].style.fontWeight = '700';
+                                            boldTags[i].style.display = 'inline';
+                                        }
+                                        
                                         overlay.appendChild(descElement);
                                     }
                                 }
